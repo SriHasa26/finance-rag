@@ -12,7 +12,7 @@ no re-ranking, no hybrid search, no memory. Just retrieve, then answer.
 
 from typing import List, Dict
 
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 
 from ingest import get_vectorstore
@@ -42,10 +42,12 @@ When answering numerical questions, preserve the units and values from the sourc
 Use the retrieved context as the only source of truth."""
 
 
-def get_llm() -> ChatOpenAI:
-    """Create the GPT-4o chat client used to generate answers."""
-    return ChatOpenAI(model=MODEL_NAME, temperature=TEMPERATURE)
-
+def get_llm() -> ChatGroq:
+    """Create the Groq chat client used to generate answers."""
+    return ChatGroq(
+        model="llama-3.3-70b-versatile",
+        temperature=TEMPERATURE
+    )
 
 def retrieve_context(question: str, k: int = TOP_K) -> List:
     """Embed the question and run a similarity search against ChromaDB."""

@@ -14,7 +14,7 @@ from pathlib import Path
 import streamlit as st
 from dotenv import load_dotenv
 
-# Load OPENAI_API_KEY (and any other vars) from a local .env file.
+# Load Groq_api_key (and any other vars) from a local .env file.
 # The key is never hardcoded anywhere in this project.
 load_dotenv()
 
@@ -30,15 +30,9 @@ st.title("Finance RAG — Quarterly Financial Reports")
 st.caption("Ask questions about quarterly financial reports using Retrieval-Augmented Generation.")
 
 # --- Startup check: the app cannot do anything useful without an API key ---
-if not os.getenv("OPENAI_API_KEY"):
-    st.error(
-        "`OPENAI_API_KEY` is not set. Create a `.env` file in the project root "
-        "(see `.env.example` for the format), add your OpenAI API key, and "
-        "restart the app."
-    )
+if not os.getenv("GROQ_API_KEY"):
+    st.error("GROQ_API_KEY is not set. Please add it to your .env file.")
     st.stop()
-
-
 def has_indexed_documents() -> bool:
     """Check whether ChromaDB already contains any indexed chunks."""
     try:

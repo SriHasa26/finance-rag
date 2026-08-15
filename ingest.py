@@ -4,7 +4,7 @@ ingest.py
 Handles the ingestion (indexing) side of the RAG pipeline:
 
   PDF(s) -> extract text page-by-page -> split into chunks
-         -> embed chunks (OpenAI) -> store in ChromaDB (persisted to disk)
+         -> embed chunks (Groq AI) -> store in ChromaDB (persisted to disk)
 
 Design notes:
 - We keep one Document per PDF *page* first (so we know which page each
@@ -23,7 +23,7 @@ from typing import List, Dict
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
 # --- Configuration -----------------------------------------------------
@@ -34,15 +34,16 @@ COLLECTION_NAME = "finance_reports"
 CHUNK_SIZE = 1200
 CHUNK_OVERLAP = 200
 
-EMBEDDING_MODEL = "text-embedding-3-small"
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 
 # --- Vector store helpers ------------------------------------------------
 
-def get_embeddings() -> OpenAIEmbeddings:
-    """Create the OpenAI embeddings client used for both indexing and querying."""
-    return OpenAIEmbeddings(model=EMBEDDING_MODEL)
-
+def get_embeddings() -> HuggingFaceEmbeddings:
+    """Create the local Hugging Face embeddings client used for indexing and querying."""
+    return HuggingFaceEmbeddings(
+        model_name=EMBEDDING_MODEL
+    )
 
 def get_vectorstore() -> Chroma:
     """
@@ -112,7 +113,7 @@ def ingest_pdfs(pdf_paths: List[str]) -> Dict:
     Steps:
       1. Read each PDF page by page (preserving filename + page number).
       2. Split pages into 1200-character chunks with 200-character overlap.
-      3. Embed chunks using OpenAI text-embedding-3-small.
+      3. Embed chunks using Hugging Face embeddings.
       4. Store chunks + embeddings in the persistent ChromaDB collection,
          skipping any chunk that is already indexed.
 

@@ -27,7 +27,7 @@ Text extraction (page by page)
  ↓
 Chunking (RecursiveCharacterTextSplitter)
  ↓
-Embeddings (OpenAI text-embedding-3-small)
+Embeddings (Groq AI text-embedding model)
  ↓
 ChromaDB (persistent vector store)
  ↓
@@ -43,7 +43,7 @@ Answer + Sources
 - Multiple PDF upload via the Streamlit sidebar
 - One-click PDF indexing (extraction → chunking → embeddings → storage)
 - Recursive character-based chunking (1200 chars, 200 char overlap)
-- OpenAI embeddings (`text-embedding-3-small`)
+- Groq AI embeddings (`text-embedding-3-small`)
 - Persistent ChromaDB — indexed documents survive an app restart
 - GPT-4o question answering (temperature 0.1 for consistency)
 - Source citations with filename **and** page number, pulled from ChromaDB metadata
@@ -59,9 +59,9 @@ Answer + Sources
 | **LangChain** | Orchestration: document loading, splitting, vector store, LLM calls |
 | **PyPDFLoader (pypdf)** | Extracts selectable text and page numbers from PDFs (no OCR) |
 | **RecursiveCharacterTextSplitter** | Splits page text into overlapping chunks for embedding |
-| **OpenAI `text-embedding-3-small`** | Converts text chunks and questions into vector embeddings |
+| **Groq AI `text-embedding-3-small`** | Converts text chunks and questions into vector embeddings |
 | **ChromaDB** | Persistent vector database for similarity search |
-| **OpenAI GPT-4o** | Generates the final answer from retrieved context |
+| **Groq AI GPT-4o** | Generates the final answer from retrieved context |
 | **python-dotenv** | Loads the API key from a local `.env` file, keeping it out of source code |
 
 ## Chunking Strategy
@@ -123,9 +123,9 @@ finance-rag/
    cp .env.example .env
    ```
 
-6. **Add your OpenAI API key** to `.env`:
+6. **Add your Groq AI API key** to `.env`:
    ```
-   OPENAI_API_KEY=sk-...your-key-here...
+   GROQ_API_KEY=sk-...your-key-here...
    ```
 
 7. **Put PDFs inside `data/`** (optional — you can also upload them through the UI)

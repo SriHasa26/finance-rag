@@ -1,9 +1,11 @@
 streamlit>=1.36.0
 langchain>=0.2.11
-langchain-openai>=0.1.17
 langchain-community>=0.2.10
 langchain-chroma>=0.1.2
+langchain-text-splitters
+langchain-groq
+langchain-huggingface
 chromadb>=0.5.5
+sentence-transformers
 pypdf>=4.3.1
 python-dotenv>=1.0.1
-openai>=1.40.0
